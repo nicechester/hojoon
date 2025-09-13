@@ -1,0 +1,603 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>RhythmShare Admin Dashboard</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700&family=Roboto:wght@400;500&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <style>
+        body {
+            font-family: 'Roboto', sans-serif;
+            background-color: #f0f4f8;
+            color: #334155;
+        }
+        .font-poppins {
+            font-family: 'Poppins', sans-serif;
+        }
+        .text-primary { color: #4ECDC4; }
+        .bg-primary { background-color: #4ECDC4; }
+        .text-secondary { color: #FF6B6B; }
+        .bg-secondary { background-color: #FF6B6B; }
+        .tab-button.active {
+            border-bottom-width: 2px;
+            border-color: #4ECDC4;
+            color: #4ECDC4;
+            font-weight: 600;
+        }
+        .card {
+            border-radius: 1.5rem;
+        }
+        .table-container {
+            overflow-x: auto;
+        }
+    </style>
+</head>
+<body class="min-h-screen flex flex-col">
+
+    <!-- Header & Navigation -->
+    <header class="bg-white shadow-md p-4 flex items-center justify-between sticky top-0 z-50">
+        <div class="flex items-center space-x-2">
+            <i class="fas fa-tools text-2xl text-primary"></i>
+            <h1 class="text-xl md:text-2xl font-poppins font-semibold">Admin Dashboard</h1>
+        </div>
+        <div class="flex items-center space-x-4">
+            <span class="text-sm md:text-base font-roboto text-gray-600 hidden md:block">Welcome, Admin</span>
+            <button class="bg-secondary text-white font-semibold py-2 px-4 rounded-full shadow-lg hover:bg-red-500 transition-colors">
+                <i class="fas fa-sign-out-alt"></i>
+                <span class="ml-2 hidden md:inline">Logout</span>
+            </button>
+        </div>
+    </header>
+
+    <!-- Main Content Area -->
+    <main class="flex-1 p-4 md:p-8">
+        <div class="bg-white card shadow-lg p-6 md:p-8">
+
+            <!-- Tab Navigation for Sections -->
+            <div class="flex items-center justify-start border-b border-gray-200 mb-8" id="main-tabs">
+                <button class="tab-button active py-4 px-6 md:px-8 focus:outline-none transition-all" data-tab="instruments">
+                    <i class="fas fa-guitar mr-2"></i> Instruments
+                </button>
+                <button class="tab-button py-4 px-6 md:px-8 focus:outline-none transition-all" data-tab="users">
+                    <i class="fas fa-users mr-2"></i> Users
+                </button>
+                <button class="tab-button py-4 px-6 md:px-8 focus:outline-none transition-all" data-tab="rentals">
+                    <i class="fas fa-calendar-alt mr-2"></i> Rentals
+                </button>
+                <button class="tab-button py-4 px-6 md:px-8 focus:outline-none transition-all" data-tab="escrow">
+                    <i class="fas fa-dollar-sign mr-2"></i> Escrow
+                </button>
+            </div>
+
+            <!-- Tab Content -->
+            <div id="tab-content">
+                
+                <!-- Instruments Management Tab -->
+                <div id="instruments-tab" class="tab-pane">
+                    <h2 class="text-2xl font-poppins font-semibold mb-6">Manage Instruments</h2>
+                    <div class="table-container">
+                        <table class="min-w-full bg-white rounded-lg shadow-md overflow-hidden">
+                            <thead class="bg-gray-100 border-b-2 border-gray-200">
+                                <tr>
+                                    <th class="p-4 text-left text-sm font-semibold">Instrument</th>
+                                    <th class="p-4 text-left text-sm font-semibold">Lister</th>
+                                    <th class="p-4 text-left text-sm font-semibold hidden md:table-cell">Status</th>
+                                    <th class="p-4 text-left text-sm font-semibold">Actions</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <!-- Example Instrument Row -->
+                                <tr class="border-b border-gray-100 hover:bg-gray-50 transition-colors">
+                                    <td class="p-4 text-sm font-medium">Vintage Fender Stratocaster</td>
+                                    <td class="p-4 text-sm">John Doe</td>
+                                    <td class="p-4 text-sm hidden md:table-cell">
+                                        <span class="bg-yellow-200 text-yellow-800 px-2 py-1 rounded-full text-xs font-semibold">Pending Appraisal</span>
+                                    </td>
+                                    <td class="p-4 text-sm space-x-2">
+                                        <button class="bg-primary text-white py-1 px-3 rounded-full text-xs font-semibold hover:bg-teal-500 transition-colors">Approve</button>
+                                        <button class="bg-secondary text-white py-1 px-3 rounded-full text-xs font-semibold hover:bg-red-500 transition-colors">Delete</button>
+                                    </td>
+                                </tr>
+                                <!-- Another example -->
+                                <tr class="border-b border-gray-100 hover:bg-gray-50 transition-colors">
+                                    <td class="p-4 text-sm font-medium">Yamaha C2 Grand Piano</td>
+                                    <td class="p-4 text-sm">Jane Smith</td>
+                                    <td class="p-4 text-sm hidden md:table-cell">
+                                        <span class="bg-green-200 text-green-800 px-2 py-1 rounded-full text-xs font-semibold">Active</span>
+                                    </td>
+                                    <td class="p-4 text-sm space-x-2">
+                                        <button class="bg-gray-200 text-gray-700 py-1 px-3 rounded-full text-xs font-semibold hover:bg-gray-300 transition-colors">Archive</button>
+                                        <button class="bg-secondary text-white py-1 px-3 rounded-full text-xs font-semibold hover:bg-red-500 transition-colors">Delete</button>
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+
+                <!-- Users Management Tab -->
+                <div id="users-tab" class="tab-pane hidden">
+                    <h2 class="text-2xl font-poppins font-semibold mb-6">Manage Users</h2>
+                    <div class="table-container">
+                        <table class="min-w-full bg-white rounded-lg shadow-md overflow-hidden">
+                            <thead class="bg-gray-100 border-b-2 border-gray-200">
+                                <tr>
+                                    <th class="p-4 text-left text-sm font-semibold">Name</th>
+                                    <th class="p-4 text-left text-sm font-semibold hidden md:table-cell">Email</th>
+                                    <th class="p-4 text-left text-sm font-semibold lg:table-cell">Roles</th>
+                                    <th class="p-4 text-left text-sm font-semibold">Actions</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <!-- Example User Row - Admin -->
+                                <tr class="border-b border-gray-100 hover:bg-gray-50 transition-colors">
+                                    <td class="p-4 text-sm font-medium">Super Admin</td>
+                                    <td class="p-4 text-sm hidden md:table-cell">admin@email.com</td>
+                                    <td class="p-4 text-sm lg:table-cell">
+                                        <span class="bg-primary text-white px-2 py-1 rounded-full text-xs font-semibold">Admin</span>
+                                    </td>
+                                    <td class="p-4 text-sm space-x-2">
+                                        <button onclick="showUserDetail('user1')" class="bg-primary text-white py-1 px-3 rounded-full text-xs font-semibold hover:bg-teal-500 transition-colors">View/Manage</button>
+                                    </td>
+                                </tr>
+                                <!-- Example User Row - Lister -->
+                                <tr class="border-b border-gray-100 hover:bg-gray-50 transition-colors">
+                                    <td class="p-4 text-sm font-medium">John Doe</td>
+                                    <td class="p-4 text-sm hidden md:table-cell">john.doe@email.com</td>
+                                    <td class="p-4 text-sm lg:table-cell space-x-1">
+                                        <span class="bg-gray-200 text-gray-700 px-2 py-1 rounded-full text-xs font-semibold">Lister</span>
+                                        <span class="bg-gray-200 text-gray-700 px-2 py-1 rounded-full text-xs font-semibold">Renter</span>
+                                    </td>
+                                    <td class="p-4 text-sm space-x-2 flex items-center">
+                                        <button onclick="showUserDetail('user2')" class="bg-primary text-white py-1 px-3 rounded-full text-xs font-semibold hover:bg-teal-500 transition-colors">View/Manage</button>
+                                    </td>
+                                </tr>
+                                <!-- Example User Row - Renter -->
+                                <tr class="border-b border-gray-100 hover:bg-gray-50 transition-colors">
+                                    <td class="p-4 text-sm font-medium">Jane Smith</td>
+                                    <td class="p-4 text-sm hidden md:table-cell">jane.smith@email.com</td>
+                                    <td class="p-4 text-sm lg:table-cell">
+                                        <span class="bg-gray-200 text-gray-700 px-2 py-1 rounded-full text-xs font-semibold">Renter</span>
+                                    </td>
+                                    <td class="p-4 text-sm space-x-2 flex items-center">
+                                        <button onclick="showUserDetail('user3')" class="bg-primary text-white py-1 px-3 rounded-full text-xs font-semibold hover:bg-teal-500 transition-colors">View/Manage</button>
+                                    </td>
+                                </tr>
+                                <!-- Example User Row - Appraiser -->
+                                <tr class="border-b border-gray-100 hover:bg-gray-50 transition-colors">
+                                    <td class="p-4 text-sm font-medium">Alex Johnson</td>
+                                    <td class="p-4 text-sm hidden md:table-cell">alex.johnson@email.com</td>
+                                    <td class="p-4 text-sm lg:table-cell space-x-1">
+                                        <span class="bg-purple-200 text-purple-800 px-2 py-1 rounded-full text-xs font-semibold">Appraiser</span>
+                                        <span class="bg-gray-200 text-gray-700 px-2 py-1 rounded-full text-xs font-semibold">Lister</span>
+                                    </td>
+                                    <td class="p-4 text-sm space-x-2 flex items-center">
+                                        <button onclick="showUserDetail('user4')" class="bg-primary text-white py-1 px-3 rounded-full text-xs font-semibold hover:bg-teal-500 transition-colors">View/Manage</button>
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+
+                <!-- Rentals Management Tab -->
+                <div id="rentals-tab" class="tab-pane hidden">
+                    <h2 class="text-2xl font-poppins font-semibold mb-6">Manage Rentals</h2>
+                    <div class="table-container">
+                        <table class="min-w-full bg-white rounded-lg shadow-md overflow-hidden">
+                            <thead class="bg-gray-100 border-b-2 border-gray-200">
+                                <tr>
+                                    <th class="p-4 text-left text-sm font-semibold">Rental ID</th>
+                                    <th class="p-4 text-left text-sm font-semibold">Instrument</th>
+                                    <th class="p-4 text-left text-sm font-semibold hidden md:table-cell">Renter</th>
+                                    <th class="p-4 text-left text-sm font-semibold hidden lg:table-cell">Dates</th>
+                                    <th class="p-4 text-left text-sm font-semibold">Status</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <!-- Example Rental Row -->
+                                <tr class="border-b border-gray-100 hover:bg-gray-50 transition-colors">
+                                    <td class="p-4 text-sm font-medium">#R001</td>
+                                    <td class="p-4 text-sm">Taylor 814ce</td>
+                                    <td class="p-4 text-sm hidden md:table-cell">Alex Johnson</td>
+                                    <td class="p-4 text-sm hidden lg:table-cell">Aug 1 - Aug 5</td>
+                                    <td class="p-4 text-sm">
+                                        <span class="bg-yellow-200 text-yellow-800 px-2 py-1 rounded-full text-xs font-semibold">Pending</span>
+                                    </td>
+                                </tr>
+                                <!-- Another example -->
+                                <tr class="border-b border-gray-100 hover:bg-gray-50 transition-colors">
+                                    <td class="p-4 text-sm font-medium">Moog Synthesizer</td>
+                                    <td class="p-4 text-sm hidden md:table-cell">Sam Green</td>
+                                    <td class="p-4 text-sm hidden lg:table-cell">July 20 - July 25</td>
+                                    <td class="p-4 text-sm">
+                                        <span class="bg-green-200 text-green-800 px-2 py-1 rounded-full text-xs font-semibold">Approved</span>
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+
+                <!-- Escrow Management Tab -->
+                <div id="escrow-tab" class="tab-pane hidden">
+                    <h2 class="text-2xl font-poppins font-semibold mb-6">Escrow Management</h2>
+                    <div class="table-container">
+                        <table class="min-w-full bg-white rounded-lg shadow-md overflow-hidden">
+                            <thead class="bg-gray-100 border-b-2 border-gray-200">
+                                <tr>
+                                    <th class="p-4 text-left text-sm font-semibold">Transaction ID</th>
+                                    <th class="p-4 text-left text-sm font-semibold">Instrument</th>
+                                    <th class="p-4 text-left text-sm font-semibold hidden md:table-cell">Lister</th>
+                                    <th class="p-4 text-left text-sm font-semibold hidden md:table-cell">Renter</th>
+                                    <th class="p-4 text-left text-sm font-semibold">Amount</th>
+                                    <th class="p-4 text-left text-sm font-semibold">Actions</th>
+                                </tr>
+                            </thead>
+                            <tbody id="escrow-table-body">
+                                <!-- Escrow items will be dynamically injected here by JS -->
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+
+                <!-- User Detail Tab (New Page) -->
+                <div id="user-detail-tab" class="tab-pane hidden">
+                    <div class="flex items-center mb-6">
+                        <button onclick="showMainUsersTab()" class="text-gray-500 hover:text-gray-700 transition-colors mr-4">
+                            <i class="fas fa-arrow-left"></i>
+                        </button>
+                        <h2 class="text-2xl font-poppins font-semibold" id="user-detail-name">User Name</h2>
+                    </div>
+
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                        <!-- Basic Information Card -->
+                        <div class="bg-white card shadow-md p-6">
+                            <h3 class="text-xl font-poppins font-semibold mb-4">Basic Information</h3>
+                            <p><strong>Email:</strong> <span id="user-detail-email"></span></p>
+                            <div class="mt-2">
+                                <p class="inline mr-2"><strong>Roles:</strong></p>
+                                <div id="user-detail-roles" class="inline-flex flex-wrap gap-2"></div>
+                            </div>
+                            <div class="mt-4 flex items-center space-x-2">
+                                <select id="user-role-select" class="p-1 rounded-lg border border-gray-300 text-xs"></select>
+                                <button class="bg-secondary text-white py-1 px-3 rounded-full text-xs font-semibold hover:bg-red-500 transition-colors">Ban User</button>
+                            </div>
+                        </div>
+
+                        <!-- Renter Score & History Card -->
+                        <div class="bg-white card shadow-md p-6">
+                            <h3 class="text-xl font-poppins font-semibold mb-4">Renter Score</h3>
+                            <div class="flex items-center mb-4">
+                                <span id="user-renter-score" class="text-4xl font-bold mr-2"></span>
+                                <div class="flex" id="renter-stars"></div>
+                            </div>
+                            
+                            <h3 class="text-xl font-poppins font-semibold mb-4">Rental History</h3>
+                            <div id="rental-history-list" class="space-y-4">
+                                <!-- Rental history items will be injected here by JS -->
+                            </div>
+                        </div>
+                        
+                        <!-- Lister Details Card -->
+                        <div class="bg-white card shadow-md p-6">
+                            <h3 class="text-xl font-poppins font-semibold mb-4">Lister Details</h3>
+                            <p class="mb-2"><strong>Instruments Listed:</strong></p>
+                            <ul id="listed-instruments-list" class="list-disc list-inside space-y-1 ml-4">
+                                <!-- Listed instruments will be injected here by JS -->
+                            </ul>
+                        </div>
+                        
+                        <!-- Appraiser Status Card -->
+                        <div class="bg-white card shadow-md p-6">
+                            <h3 class="text-xl font-poppins font-semibold mb-4">Appraiser Status</h3>
+                            <p id="appraiser-status-text" class="mb-4">
+                                <!-- Appraiser status will be injected here by JS -->
+                            </p>
+                            <button id="certify-appraiser-button" class="bg-primary text-white py-2 px-4 rounded-full text-sm font-semibold hover:bg-teal-500 transition-colors">
+                                <!-- Button text will be injected here by JS -->
+                            </button>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+
+        </div>
+    </main>
+    
+    <script>
+        const mockUsers = {
+            'user1': {
+                name: 'Super Admin',
+                email: 'admin@email.com',
+                roles: ['Admin'],
+                appraiser: false,
+                renterScore: null,
+                listedInstruments: [],
+                rentalHistory: []
+            },
+            'user2': {
+                name: 'John Doe',
+                email: 'john.doe@email.com',
+                roles: ['Lister', 'Renter'],
+                appraiser: false,
+                renterScore: 4.5,
+                listedInstruments: ['Vintage Fender Stratocaster', 'Gibson Les Paul'],
+                rentalHistory: [
+                    { instrument: 'Yamaha C2 Grand Piano', dates: 'July 1 - July 7' },
+                    { instrument: 'Moog Synthesizer', dates: 'June 10 - June 15' }
+                ]
+            },
+            'user3': {
+                name: 'Jane Smith',
+                email: 'jane.smith@email.com',
+                roles: ['Renter'],
+                appraiser: false,
+                renterScore: 5.0,
+                listedInstruments: [],
+                rentalHistory: [
+                    { instrument: 'Taylor 814ce', dates: 'Aug 1 - Aug 5' }
+                ]
+            },
+            'user4': {
+                name: 'Alex Johnson',
+                email: 'alex.johnson@email.com',
+                roles: ['Appraiser', 'Lister'],
+                appraiser: true,
+                renterScore: 4.8,
+                listedInstruments: ['Custom Acoustic Guitar'],
+                rentalHistory: []
+            }
+        };
+
+        const mockEscrow = [
+            {
+                id: 'escrow-txn-1',
+                instrument: 'Taylor 814ce',
+                lister: 'Jane Smith',
+                renter: 'Alex Johnson',
+                amount: 250,
+                status: 'in_escrow'
+            },
+            {
+                id: 'escrow-txn-2',
+                instrument: 'Gibson Les Paul',
+                lister: 'John Doe',
+                renter: 'Sarah Davis',
+                amount: 320,
+                status: 'in_escrow'
+            },
+            {
+                id: 'escrow-txn-3',
+                instrument: 'Yamaha C2 Grand Piano',
+                lister: 'Jane Smith',
+                renter: 'Michael Brown',
+                amount: 1200,
+                status: 'in_escrow'
+            }
+        ];
+
+        let currentAppraisalId = null;
+
+        document.addEventListener('DOMContentLoaded', () => {
+            const tabButtons = document.querySelectorAll('.tab-button');
+            const tabPanes = document.querySelectorAll('.tab-pane');
+            const mainTabsContainer = document.getElementById('main-tabs');
+
+            // Function to show a specific tab
+            function showTab(tabName) {
+                tabPanes.forEach(pane => {
+                    if (pane.id === `${tabName}-tab`) {
+                        pane.classList.remove('hidden');
+                    } else {
+                        pane.classList.add('hidden');
+                    }
+                });
+
+                if (tabName === 'user-detail') {
+                    mainTabsContainer.classList.add('hidden');
+                } else {
+                    mainTabsContainer.classList.remove('hidden');
+                    tabButtons.forEach(button => {
+                        if (button.dataset.tab === tabName) {
+                            button.classList.add('active');
+                        } else {
+                            button.classList.remove('active');
+                        }
+                    });
+                }
+            }
+
+            // Function to show the main users tab
+            window.showMainUsersTab = function() {
+                showTab('users');
+            };
+            
+            // Function to populate and show the user detail page
+            window.showUserDetail = function(userId) {
+                const user = mockUsers[userId];
+                if (!user) {
+                    console.error("User not found:", userId);
+                    return;
+                }
+
+                document.getElementById('user-detail-name').innerText = user.name;
+                document.getElementById('user-detail-email').innerText = user.email;
+                
+                // Update roles display on user detail page
+                const rolesContainer = document.getElementById('user-detail-roles');
+                rolesContainer.innerHTML = '';
+                user.roles.forEach(role => {
+                    const roleSpan = document.createElement('span');
+                    roleSpan.innerText = role;
+                    roleSpan.className = 'px-2 py-1 rounded-full text-xs font-semibold';
+                    switch(role) {
+                        case 'Admin': roleSpan.classList.add('bg-primary', 'text-white'); break;
+                        case 'Appraiser': roleSpan.classList.add('bg-purple-200', 'text-purple-800'); break;
+                        default: roleSpan.classList.add('bg-gray-200', 'text-gray-700');
+                    }
+                    rolesContainer.appendChild(roleSpan);
+                });
+
+                // Update role select dropdown
+                const roleSelect = document.getElementById('user-role-select');
+                roleSelect.innerHTML = `
+                    <option value="Admin" ${user.roles.includes('Admin') ? 'selected' : ''}>Make Admin</option>
+                    <option value="Appraiser" ${user.roles.includes('Appraiser') ? 'selected' : ''}>Make Appraiser</option>
+                    <option value="Lister" ${user.roles.includes('Lister') ? 'selected' : ''}>Make Lister</option>
+                    <option value="Renter" ${user.roles.includes('Renter') ? 'selected' : ''}>Make Renter</option>
+                `;
+                
+                // Update renter score
+                const scoreElement = document.getElementById('user-renter-score');
+                const starsContainer = document.getElementById('renter-stars');
+                if (user.renterScore !== null) {
+                    scoreElement.innerText = user.renterScore.toFixed(1);
+                    starsContainer.innerHTML = '';
+                    const fullStars = Math.floor(user.renterScore);
+                    const hasHalfStar = user.renterScore % 1 !== 0;
+                    for (let i = 0; i < fullStars; i++) {
+                        starsContainer.innerHTML += '<i class="fas fa-star text-yellow-400"></i>';
+                    }
+                    if (hasHalfStar) {
+                        starsContainer.innerHTML += '<i class="fas fa-star-half-alt text-yellow-400"></i>';
+                    }
+                } else {
+                    scoreElement.innerText = 'N/A';
+                    starsContainer.innerHTML = '';
+                }
+
+                // Update listed instruments
+                const listedInstrumentsList = document.getElementById('listed-instruments-list');
+                listedInstrumentsList.innerHTML = '';
+                if (user.listedInstruments.length > 0) {
+                    user.listedInstruments.forEach(instrument => {
+                        listedInstrumentsList.innerHTML += `<li>${instrument}</li>`;
+                    });
+                } else {
+                    listedInstrumentsList.innerHTML += `<li>No instruments listed.</li>`;
+                }
+
+                // Update rental history
+                const rentalHistoryList = document.getElementById('rental-history-list');
+                rentalHistoryList.innerHTML = '';
+                if (user.rentalHistory.length > 0) {
+                    user.rentalHistory.forEach(rental => {
+                        rentalHistoryList.innerHTML += `
+                            <div class="p-4 bg-gray-50 rounded-lg shadow-sm">
+                                <p class="font-medium">${rental.instrument}</p>
+                                <p class="text-sm text-gray-500">${rental.dates}</p>
+                            </div>
+                        `;
+                    });
+                } else {
+                    rentalHistoryList.innerHTML += `<p class="text-sm text-gray-500">No rental history.</p>`;
+                }
+
+                // Update appraiser status
+                const appraiserStatusText = document.getElementById('appraiser-status-text');
+                const certifyButton = document.getElementById('certify-appraiser-button');
+                if (user.appraiser) {
+                    appraiserStatusText.innerHTML = 'This user is a **certified appraiser.**';
+                    certifyButton.innerText = 'Uncertify Appraiser';
+                    certifyButton.classList.remove('bg-primary');
+                    certifyButton.classList.add('bg-secondary');
+                } else {
+                    appraiserStatusText.innerHTML = 'This user is **not** a certified appraiser.';
+                    certifyButton.innerText = 'Certify as Appraiser';
+                    certifyButton.classList.remove('bg-secondary');
+                    certifyButton.classList.add('bg-primary');
+                }
+                
+                showTab('user-detail');
+            };
+
+            // Function to render the table of pending escrow transactions
+            function renderEscrowTable() {
+                const tableBody = document.getElementById('escrow-table-body');
+                tableBody.innerHTML = '';
+                const pendingTransactions = mockEscrow.filter(t => t.status === 'in_escrow');
+                
+                if (pendingTransactions.length === 0) {
+                    tableBody.innerHTML = `
+                        <tr class="border-b border-gray-100">
+                            <td colspan="6" class="p-4 text-center text-gray-500">
+                                No pending escrow transactions at this time.
+                            </td>
+                        </tr>
+                    `;
+                } else {
+                    pendingTransactions.forEach(tx => {
+                        const row = document.createElement('tr');
+                        row.className = 'border-b border-gray-100 hover:bg-gray-50 transition-colors';
+                        row.innerHTML = `
+                            <td class="p-4 text-sm font-medium">${tx.id}</td>
+                            <td class="p-4 text-sm">${tx.instrument}</td>
+                            <td class="p-4 text-sm hidden md:table-cell">${tx.lister}</td>
+                            <td class="p-4 text-sm hidden md:table-cell">${tx.renter}</td>
+                            <td class="p-4 text-sm font-medium">$${tx.amount.toFixed(2)}</td>
+                            <td class="p-4 text-sm space-x-2">
+                                <button onclick="releaseFunds('${tx.id}')" class="bg-primary text-white py-1 px-3 rounded-full text-xs font-semibold hover:bg-teal-500 transition-colors">Release Funds</button>
+                                <button onclick="refundRenter('${tx.id}')" class="bg-secondary text-white py-1 px-3 rounded-full text-xs font-semibold hover:bg-red-500 transition-colors">Refund</button>
+                            </td>
+                        `;
+                        tableBody.appendChild(row);
+                    });
+                }
+            }
+
+            // Function to handle releasing funds
+            window.releaseFunds = function(txId) {
+                const transaction = mockEscrow.find(t => t.id === txId);
+                if (transaction) {
+                    transaction.status = 'released';
+                    showMessage(`Funds for transaction ${txId} released to the lister.`, "success");
+                    renderEscrowTable();
+                }
+            };
+            
+            // Function to handle refunding the renter
+            window.refundRenter = function(txId) {
+                const transaction = mockEscrow.find(t => t.id === txId);
+                if (transaction) {
+                    transaction.status = 'refunded';
+                    showMessage(`Funds for transaction ${txId} have been refunded to the renter.`, "info");
+                    renderEscrowTable();
+                }
+            };
+
+            // Event listener for tab buttons
+            tabButtons.forEach(button => {
+                button.addEventListener('click', () => {
+                    const tabName = button.dataset.tab;
+                    showTab(tabName);
+                    if (tabName === 'escrow') {
+                        renderEscrowTable();
+                    }
+                });
+            });
+
+            // Show the default tab on page load
+            showTab('instruments');
+        });
+
+        // Message Box functionality (re-used from appraiser.html)
+        function showMessage(message, type) {
+            const msgBox = document.getElementById('message-box');
+            const overlay = document.getElementById('overlay');
+            document.getElementById('message-content').innerText = message;
+            msgBox.classList.remove('hidden');
+            overlay.classList.remove('hidden');
+        }
+
+        document.getElementById('message-ok-button').addEventListener('click', () => {
+            document.getElementById('message-box').classList.add('hidden');
+            document.getElementById('overlay').classList.add('hidden');
+        });
+    </script>
+</body>
+</html>
+

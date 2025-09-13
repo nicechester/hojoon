@@ -1,0 +1,663 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>RhythmShare</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700&family=Roboto:wght@400;500&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <style>
+        body {
+            font-family: 'Roboto', sans-serif;
+            color: #333333;
+            background-color: #F7F9FC;
+        }
+        .font-poppins {
+            font-family: 'Poppins', sans-serif;
+        }
+        .primary-bg {
+            background-color: #FF6B6B;
+        }
+        .primary-hover:hover {
+            background-color: #e65c5c;
+        }
+        .secondary-bg {
+            background-color: #4ECDC4;
+        }
+        .secondary-hover:hover {
+            background-color: #41b6ad;
+        }
+        .text-primary {
+            color: #FF6B6B;
+        }
+        .page {
+            display: none;
+        }
+        .page.active {
+            display: block;
+        }
+    </style>
+</head>
+<body class="min-h-screen">
+
+    <!-- Main Navigation Bar -->
+    <nav class="bg-white shadow-sm p-4 sticky top-0 z-50 flex items-center justify-between">
+        <div class="flex items-center">
+            <a href="#" id="home-nav" class="flex items-center space-x-2">
+                <i class="fas fa-music text-2xl text-primary"></i>
+                <span class="text-xl font-poppins font-semibold text-gray-800 hidden sm:block">RhythmShare</span>
+            </a>
+        </div>
+        <div class="hidden md:flex items-center space-x-6 font-poppins text-gray-600">
+            <a href="#" id="browse-nav" class="hover:text-primary transition">Browse</a>
+            <a href="#" id="list-nav" class="hover:text-primary transition">List an Instrument</a>
+            <a href="#" id="dashboard-nav" class="hover:text-primary transition">Dashboard</a>
+        </div>
+        <div class="flex items-center space-x-4">
+            <button id="login-btn" class="text-gray-600 hover:text-primary font-poppins transition hidden md:block">Log In</button>
+            <button id="signup-btn" class="bg-primary-bg text-white px-4 py-2 rounded-full font-poppins hover:bg-red-500 transition shadow-lg hidden md:block">Sign Up</button>
+            <button id="mobile-menu-btn" class="md:hidden text-gray-600 text-2xl"><i class="fas fa-bars"></i></button>
+        </div>
+    </nav>
+    
+    <!-- Mobile Menu (Hidden by default) -->
+    <div id="mobile-menu" class="hidden fixed inset-0 z-40 bg-gray-900 bg-opacity-75 flex justify-end">
+        <div class="bg-white w-2/3 p-6 shadow-xl relative">
+            <button id="close-mobile-menu" class="absolute top-4 right-4 text-2xl text-gray-600"><i class="fas fa-times"></i></button>
+            <ul class="mt-12 space-y-6 text-lg font-poppins text-gray-800">
+                <li><a href="#" class="block hover:text-primary">Browse</a></li>
+                <li><a href="#" class="block hover:text-primary">List an Instrument</a></li>
+                <li><a href="#" class="block hover:text-primary">Dashboard</a></li>
+                <li class="border-t pt-4 mt-4">
+                    <button class="w-full text-left hover:text-primary">Log In</button>
+                </li>
+                <li>
+                    <button class="w-full bg-primary-bg text-white px-4 py-2 rounded-full hover:bg-red-500 transition shadow-lg">Sign Up</button>
+                </li>
+            </ul>
+        </div>
+    </div>
+
+    <!-- Main Content Pages Container -->
+    <main class="container mx-auto p-4 md:p-8">
+
+        <!-- Page 1: Homepage -->
+        <div id="homepage" class="page active">
+            <!-- Hero Section -->
+            <div class="relative bg-center bg-cover rounded-3xl overflow-hidden shadow-2xl h-[400px] md:h-[600px] flex items-center justify-center p-8 text-center" style="background-image: url('https://placehold.co/1920x1080/4ECDC4/ffffff?text=Background+Image+Placeholder');">
+                <div class="absolute inset-0 bg-black opacity-40"></div>
+                <div class="relative z-10 text-white max-w-2xl">
+                    <h1 class="text-4xl md:text-6xl font-poppins font-bold mb-4">Unleash Your Sound.</h1>
+                    <p class="text-lg md:text-xl font-roboto mb-8">Rent and lend professional instruments from a community of musicians. Discover the perfect sound for your next project.</p>
+                    <div class="flex flex-col sm:flex-row space-y-4 sm:space-y-0 sm:space-x-4 justify-center">
+                        <button id="explore-btn" class="bg-primary-bg text-white font-semibold py-3 px-8 rounded-full shadow-lg primary-hover transition">Explore Instruments</button>
+                        <button id="list-instrument-btn" class="bg-white text-gray-800 font-semibold py-3 px-8 rounded-full shadow-lg hover:bg-gray-100 transition">List Your Gear</button>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Featured Instruments Section -->
+            <section class="my-16">
+                <h2 class="text-3xl md:text-4xl font-poppins font-bold text-center mb-10">Featured Instruments</h2>
+                <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8">
+                    <!-- Instrument Card Component -->
+                    <div class="bg-white rounded-2xl shadow-xl overflow-hidden hover:shadow-2xl transition-all cursor-pointer card-link" data-page="detailpage">
+                        <img src="https://placehold.co/600x400/FF6B6B/ffffff?text=Vintage+Guitar" alt="Vintage Fender Stratocaster" class="w-full h-48 object-cover">
+                        <div class="p-6">
+                            <h3 class="text-xl font-poppins font-semibold mb-2">Vintage Fender Stratocaster</h3>
+                            <div class="flex items-center justify-between text-gray-600 mb-4">
+                                <span class="text-lg font-roboto font-bold text-primary">
+                                    <span class="text-2xl">$75</span>/day
+                                </span>
+                                <div class="flex items-center space-x-1">
+                                    <i class="fas fa-map-marker-alt text-sm text-gray-500"></i>
+                                    <span class="text-sm">Los Angeles, CA</span>
+                                </div>
+                            </div>
+                            <button class="w-full bg-secondary-bg text-white font-semibold py-3 rounded-full secondary-hover transition">View Details</button>
+                        </div>
+                    </div>
+                    
+                    <!-- Repeat for more cards... -->
+                    <div class="bg-white rounded-2xl shadow-xl overflow-hidden hover:shadow-2xl transition-all cursor-pointer card-link" data-page="detailpage">
+                        <img src="https://placehold.co/600x400/4ECDC4/ffffff?text=Grand+Piano" alt="Yamaha C2 Grand Piano" class="w-full h-48 object-cover">
+                        <div class="p-6">
+                            <h3 class="text-xl font-poppins font-semibold mb-2">Yamaha C2 Grand Piano</h3>
+                            <div class="flex items-center justify-between text-gray-600 mb-4">
+                                <span class="text-lg font-roboto font-bold text-primary">
+                                    <span class="text-2xl">$120</span>/day
+                                </span>
+                                <div class="flex items-center space-x-1">
+                                    <i class="fas fa-map-marker-alt text-sm text-gray-500"></i>
+                                    <span class="text-sm">New York, NY</span>
+                                </div>
+                            </div>
+                            <button class="w-full bg-secondary-bg text-white font-semibold py-3 rounded-full secondary-hover transition">View Details</button>
+                        </div>
+                    </div>
+                    
+                    <div class="bg-white rounded-2xl shadow-xl overflow-hidden hover:shadow-2xl transition-all cursor-pointer card-link" data-page="detailpage">
+                        <img src="https://placehold.co/600x400/333333/ffffff?text=Drum+Kit" alt="Ludwig Classic Maple Kit" class="w-full h-48 object-cover">
+                        <div class="p-6">
+                            <h3 class="text-xl font-poppins font-semibold mb-2">Ludwig Classic Maple Kit</h3>
+                            <div class="flex items-center justify-between text-gray-600 mb-4">
+                                <span class="text-lg font-roboto font-bold text-primary">
+                                    <span class="text-2xl">$50</span>/day
+                                </span>
+                                <div class="flex items-center space-x-1">
+                                    <i class="fas fa-map-marker-alt text-sm text-gray-500"></i>
+                                    <span class="text-sm">Austin, TX</span>
+                                </div>
+                            </div>
+                            <button class="w-full bg-secondary-bg text-white font-semibold py-3 rounded-full secondary-hover transition">View Details</button>
+                        </div>
+                    </div>
+                </div>
+            </section>
+        </div>
+
+        <!-- Page 2: Browse Instruments -->
+        <div id="browsepage" class="page">
+            <h1 class="text-4xl md:text-5xl font-poppins font-bold text-center mb-10">Find Your Instrument</h1>
+            
+            <!-- Search and Filter Section -->
+            <div class="flex flex-col md:flex-row space-y-6 md:space-y-0 md:space-x-6">
+                
+                <!-- Filters Sidebar -->
+                <aside class="w-full md:w-1/4 bg-white rounded-2xl shadow-xl p-6">
+                    <h3 class="text-2xl font-poppins font-semibold mb-6">Filters</h3>
+                    
+                    <!-- Instrument Type Filter -->
+                    <div class="mb-6">
+                        <label class="block text-gray-700 font-semibold mb-2">Instrument Type</label>
+                        <select class="w-full p-3 rounded-lg border border-gray-300 focus:ring-2 focus:ring-primary-bg focus:border-primary-bg transition">
+                            <option>All</option>
+                            <option>Guitars</option>
+                            <option>Pianos</option>
+                            <option>Drums</option>
+                            <option>Brass</option>
+                            <option>Strings</option>
+                        </select>
+                    </div>
+                    
+                    <!-- Price Range Filter -->
+                    <div class="mb-6">
+                        <label class="block text-gray-700 font-semibold mb-2">Price Range</label>
+                        <input type="range" class="w-full" min="10" max="500" value="250">
+                        <div class="flex justify-between text-sm text-gray-500 mt-2">
+                            <span>$10</span>
+                            <span>$500</span>
+                        </div>
+                    </div>
+
+                    <!-- Condition Filter -->
+                    <div class="mb-6">
+                        <label class="block text-gray-700 font-semibold mb-2">Condition</label>
+                        <div class="space-y-2">
+                            <label class="flex items-center">
+                                <input type="checkbox" class="rounded text-primary-bg focus:ring-primary-bg">
+                                <span class="ml-2">Mint</span>
+                            </label>
+                            <label class="flex items-center">
+                                <input type="checkbox" class="rounded text-primary-bg focus:ring-primary-bg">
+                                <span class="ml-2">Good</span>
+                            </label>
+                            <label class="flex items-center">
+                                <input type="checkbox" class="rounded text-primary-bg focus:ring-primary-bg">
+                                <span class="ml-2">Used</span>
+                            </label>
+                        </div>
+                    </div>
+
+                    <!-- Appraisal Status Filter -->
+                    <div class="mb-6">
+                        <label class="block text-gray-700 font-semibold mb-2">Appraisal Status</label>
+                        <div class="space-y-2">
+                            <label class="flex items-center">
+                                <input type="checkbox" class="rounded text-primary-bg focus:ring-primary-bg">
+                                <span class="ml-2">Professionally Appraised</span>
+                            </label>
+                        </div>
+                    </div>
+                </aside>
+
+                <!-- Instrument Grid -->
+                <div class="w-full md:w-3/4">
+                    <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8">
+                        <!-- Re-use Instrument Card Component -->
+                        <div class="bg-white rounded-2xl shadow-xl overflow-hidden hover:shadow-2xl transition-all cursor-pointer card-link" data-page="detailpage">
+                            <img src="https://placehold.co/600x400/4ECDC4/ffffff?text=Violin" alt="Stradivarius Violin" class="w-full h-48 object-cover">
+                            <div class="p-6">
+                                <h3 class="text-xl font-poppins font-semibold mb-2">Stradivarius Violin</h3>
+                                <div class="flex items-center justify-between text-gray-600 mb-4">
+                                    <span class="text-lg font-roboto font-bold text-primary">
+                                        <span class="text-2xl">$150</span>/day
+                                    </span>
+                                    <div class="flex items-center space-x-1">
+                                        <i class="fas fa-map-marker-alt text-sm text-gray-500"></i>
+                                        <span class="text-sm">Paris, FR</span>
+                                    </div>
+                                </div>
+                                <button class="w-full bg-secondary-bg text-white font-semibold py-3 rounded-full secondary-hover transition">View Details</button>
+                            </div>
+                        </div>
+                        
+                        <!-- Another example card -->
+                        <div class="bg-white rounded-2xl shadow-xl overflow-hidden hover:shadow-2xl transition-all cursor-pointer card-link" data-page="detailpage">
+                            <img src="https://placehold.co/600x400/FF6B6B/ffffff?text=Electric+Guitar" alt="Gibson Les Paul Standard" class="w-full h-48 object-cover">
+                            <div class="p-6">
+                                <h3 class="text-xl font-poppins font-semibold mb-2">Gibson Les Paul Standard</h3>
+                                <div class="flex items-center justify-between text-gray-600 mb-4">
+                                    <span class="text-lg font-roboto font-bold text-primary">
+                                        <span class="text-2xl">$80</span>/day
+                                    </span>
+                                    <div class="flex items-center space-x-1">
+                                        <i class="fas fa-map-marker-alt text-sm text-gray-500"></i>
+                                        <span class="text-sm">London, UK</span>
+                                    </div>
+                                </div>
+                                <button class="w-full bg-secondary-bg text-white font-semibold py-3 rounded-full secondary-hover transition">View Details</button>
+                            </div>
+                        </div>
+
+                         <!-- Another example card -->
+                        <div class="bg-white rounded-2xl shadow-xl overflow-hidden hover:shadow-2xl transition-all cursor-pointer card-link" data-page="detailpage">
+                            <img src="https://placehold.co/600x400/333333/ffffff?text=Keyboard" alt="Moog Grandmother Synthesizer" class="w-full h-48 object-cover">
+                            <div class="p-6">
+                                <h3 class="text-xl font-poppins font-semibold mb-2">Moog Grandmother Synthesizer</h3>
+                                <div class="flex items-center justify-between text-gray-600 mb-4">
+                                    <span class="text-lg font-roboto font-bold text-primary">
+                                        <span class="text-2xl">$90</span>/day
+                                    </span>
+                                    <div class="flex items-center space-x-1">
+                                        <i class="fas fa-map-marker-alt text-sm text-gray-500"></i>
+                                        <span class="text-sm">Berlin, DE</span>
+                                    </div>
+                                </div>
+                                <button class="w-full bg-secondary-bg text-white font-semibold py-3 rounded-full secondary-hover transition">View Details</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Page 3: Instrument Detail Page -->
+        <div id="detailpage" class="page">
+            <button id="back-to-browse" class="flex items-center space-x-2 text-gray-600 hover:text-primary mb-8 transition"><i class="fas fa-arrow-left"></i> <span>Back to Browse</span></button>
+            <div class="bg-white rounded-3xl shadow-xl p-6 md:p-10 flex flex-col lg:flex-row space-y-8 lg:space-y-0 lg:space-x-12">
+                
+                <!-- Image Gallery -->
+                <div class="w-full lg:w-3/5">
+                    <img src="https://placehold.co/900x600/4ECDC4/ffffff?text=Taylor+Guitar+Image" alt="Taylor 814ce Grand Auditorium" class="w-full rounded-2xl mb-4 shadow-md">
+                    <div class="flex space-x-4">
+                        <img src="https://placehold.co/150x100/333333/ffffff?text=Detail+1" class="w-1/4 rounded-lg cursor-pointer hover:shadow-lg transition">
+                        <img src="https://placehold.co/150x100/FF6B6B/ffffff?text=Detail+2" class="w-1/4 rounded-lg cursor-pointer hover:shadow-lg transition">
+                        <img src="https://placehold.co/150x100/4ECDC4/ffffff?text=Detail+3" class="w-1/4 rounded-lg cursor-pointer hover:shadow-lg transition">
+                        <img src="https://placehold.co/150x100/FF6B6B/ffffff?text=Detail+4" class="w-1/4 rounded-lg cursor-pointer hover:shadow-lg transition">
+                    </div>
+                </div>
+
+                <!-- Details & Renting Section -->
+                <div class="w-full lg:w-2/5">
+                    <h1 class="text-3xl md:text-4xl font-poppins font-bold mb-2">Taylor 814ce Grand Auditorium</h1>
+                    <div class="flex items-center space-x-2 text-gray-600 mb-6">
+                        <i class="fas fa-user-circle text-xl"></i>
+                        <span>Listed by John P.</span>
+                        <div class="text-yellow-400 ml-4">
+                            <i class="fas fa-star"></i>
+                            <i class="fas fa-star"></i>
+                            <i class="fas fa-star"></i>
+                            <i class="fas fa-star"></i>
+                            <i class="fas fa-star-half-alt"></i>
+                        </div>
+                    </div>
+
+                    <div class="flex items-center mb-6">
+                        <span class="text-5xl font-poppins font-bold text-primary">$60</span>
+                        <span class="text-lg text-gray-600 ml-2">/day</span>
+                    </div>
+
+                    <div class="bg-green-100 text-green-700 px-4 py-2 rounded-full inline-flex items-center space-x-2 mb-8">
+                        <i class="fas fa-check-circle"></i>
+                        <span class="font-semibold">Professionally Appraised</span>
+                    </div>
+
+                    <div class="mb-6">
+                        <label class="block text-lg font-semibold mb-2">Select Dates</label>
+                        <!-- A placeholder for a calendar input -->
+                        <input type="date" class="w-full p-3 rounded-lg border border-gray-300 focus:ring-2 focus:ring-primary-bg focus:border-primary-bg transition">
+                    </div>
+                    
+                    <button class="w-full primary-bg text-white font-semibold py-4 rounded-full shadow-lg primary-hover transition mb-4">Request to Rent</button>
+                    <button class="w-full bg-white border border-gray-300 text-gray-800 font-semibold py-4 rounded-full hover:bg-gray-100 transition">Contact Lister</button>
+
+                </div>
+            </div>
+
+            <!-- Tabs Section -->
+            <div class="mt-12 bg-white rounded-3xl shadow-xl p-6 md:p-10">
+                <div class="flex border-b border-gray-200 mb-6">
+                    <button class="tab-button text-lg font-semibold py-4 px-6 border-b-2 border-primary-bg text-primary-bg transition">Description</button>
+                    <button class="tab-button text-lg font-semibold py-4 px-6 border-b-2 border-transparent text-gray-500 hover:text-primary transition">Specifications</button>
+                    <button class="tab-button text-lg font-semibold py-4 px-6 border-b-2 border-transparent text-gray-500 hover:text-primary transition">Reviews</button>
+                </div>
+                
+                <div class="tab-content">
+                    <div class="tab-pane active" id="description-pane">
+                        <p class="text-gray-700 leading-relaxed">This Taylor 814ce is a stunning Grand Auditorium acoustic-electric guitar with a classic design. The instrument is in mint condition, meticulously cared for, and ready for your next studio session or live performance. It features a solid Sitka spruce top and Indian rosewood back and sides, delivering a rich, full-bodied tone with a balanced response across the frequency spectrum. The Expression System 2 electronics ensure a high-quality, natural-sounding amplified tone.</p>
+                        <p class="text-gray-700 leading-relaxed mt-4">Perfect for singer-songwriters, session musicians, and anyone who demands a premium acoustic experience. Comes with a hardshell case and is ready for pickup in Los Angeles.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Page 4: List an Instrument -->
+        <div id="listingpage" class="page">
+            <h1 class="text-4xl md:text-5xl font-poppins font-bold text-center mb-10">List Your Instrument</h1>
+            <div class="bg-white rounded-3xl shadow-xl p-6 md:p-10 max-w-4xl mx-auto">
+                
+                <!-- Progress Indicator -->
+                <div class="flex items-center justify-between mb-8">
+                    <div class="flex-1 text-center">
+                        <span id="step-1-label" class="font-semibold text-primary">1. Details</span>
+                    </div>
+                    <div class="flex-1 text-center">
+                        <span id="step-2-label" class="font-semibold text-gray-400">2. Photos & Pricing</span>
+                    </div>
+                    <div class="flex-1 text-center">
+                        <span id="step-3-label" class="font-semibold text-gray-400">3. Appraisal</span>
+                    </div>
+                    <div class="flex-1 text-center">
+                        <span id="step-4-label" class="font-semibold text-gray-400">4. Review</span>
+                    </div>
+                </div>
+
+                <!-- Step 1: Instrument Details -->
+                <div id="step-1" class="listing-step active">
+                    <div class="mb-6">
+                        <label for="instrument-name" class="block text-gray-700 font-semibold mb-2">Instrument Name</label>
+                        <input type="text" id="instrument-name" placeholder="e.g., Taylor 814ce Grand Auditorium" class="w-full p-3 rounded-lg border border-gray-300 focus:ring-2 focus:ring-primary-bg focus:border-primary-bg transition">
+                    </div>
+                    <div class="mb-6">
+                        <label for="category" class="block text-gray-700 font-semibold mb-2">Category</label>
+                        <select id="category" class="w-full p-3 rounded-lg border border-gray-300 focus:ring-2 focus:ring-primary-bg focus:border-primary-bg transition">
+                            <option>Guitars</option>
+                            <option>Pianos</option>
+                            <option>Drums</option>
+                            <option>Brass</option>
+                            <option>Strings</option>
+                        </select>
+                    </div>
+                    <div class="mb-6">
+                        <label for="description" class="block text-gray-700 font-semibold mb-2">Description</label>
+                        <textarea id="description" rows="4" placeholder="Describe the instrument's condition, history, and unique features." class="w-full p-3 rounded-lg border border-gray-300 focus:ring-2 focus:ring-primary-bg focus:border-primary-bg transition"></textarea>
+                    </div>
+                    <div class="flex justify-end">
+                        <button id="next-step-1" class="primary-bg text-white font-semibold py-3 px-8 rounded-full shadow-lg primary-hover transition">Next</button>
+                    </div>
+                </div>
+
+                <!-- Step 2: Photos & Pricing -->
+                <div id="step-2" class="listing-step hidden">
+                    <div class="mb-6">
+                        <label class="block text-gray-700 font-semibold mb-2">Photos</label>
+                        <div class="border-2 border-dashed border-gray-300 rounded-lg p-8 text-center">
+                            <i class="fas fa-camera text-4xl text-gray-400 mb-4"></i>
+                            <p class="text-gray-500">Drag & drop your photos here or <a href="#" class="text-primary-bg font-semibold hover:underline">browse files</a></p>
+                        </div>
+                    </div>
+                    <div class="mb-6">
+                        <label for="daily-price" class="block text-gray-700 font-semibold mb-2">Daily Price</label>
+                        <input type="number" id="daily-price" placeholder="$" class="w-full p-3 rounded-lg border border-gray-300 focus:ring-2 focus:ring-primary-bg focus:border-primary-bg transition">
+                    </div>
+                    <div class="mb-6">
+                        <label for="security-deposit" class="block text-gray-700 font-semibold mb-2">Security Deposit</label>
+                        <input type="number" id="security-deposit" placeholder="$" class="w-full p-3 rounded-lg border border-gray-300 focus:ring-2 focus:ring-primary-bg focus:border-primary-bg transition">
+                    </div>
+                    <div class="flex justify-between">
+                        <button id="prev-step-2" class="bg-gray-200 text-gray-700 font-semibold py-3 px-8 rounded-full hover:bg-gray-300 transition">Back</button>
+                        <button id="next-step-2" class="primary-bg text-white font-semibold py-3 px-8 rounded-full shadow-lg primary-hover transition">Next</button>
+                    </div>
+                </div>
+
+                <!-- Step 3: Appraisal -->
+                <div id="step-3" class="listing-step hidden">
+                    <h3 class="text-xl font-poppins font-semibold mb-4">Appraisal Status</h3>
+                    <div class="mb-6 space-y-4">
+                        <label class="flex items-center p-4 bg-white border border-gray-200 rounded-lg shadow-sm cursor-pointer hover:shadow-md transition">
+                            <input type="radio" name="appraisal-status" value="have-appraisal" class="form-radio text-primary-bg">
+                            <span class="ml-3 text-gray-700 font-semibold">I have a professional appraisal</span>
+                        </label>
+                        <div id="upload-appraisal" class="hidden pl-8 mt-2">
+                             <div class="border-2 border-dashed border-gray-300 rounded-lg p-6 text-center">
+                                <i class="fas fa-upload text-3xl text-gray-400 mb-2"></i>
+                                <p class="text-gray-500 text-sm">Upload your appraisal document</p>
+                            </div>
+                        </div>
+                        <label class="flex items-center p-4 bg-white border border-gray-200 rounded-lg shadow-sm cursor-pointer hover:shadow-md transition">
+                            <input type="radio" name="appraisal-status" value="need-appraisal" class="form-radio text-primary-bg">
+                            <span class="ml-3 text-gray-700 font-semibold">I need a professional appraisal</span>
+                        </label>
+                        <p class="text-sm text-gray-500 pl-8 pt-1">Our team will contact you to schedule an appraisal.</p>
+                    </div>
+                    <div class="flex justify-between">
+                        <button id="prev-step-3" class="bg-gray-200 text-gray-700 font-semibold py-3 px-8 rounded-full hover:bg-gray-300 transition">Back</button>
+                        <button id="next-step-3" class="primary-bg text-white font-semibold py-3 px-8 rounded-full shadow-lg primary-hover transition">Next</button>
+                    </div>
+                </div>
+
+                <!-- Step 4: Review -->
+                <div id="step-4" class="listing-step hidden">
+                    <h3 class="text-xl font-poppins font-semibold mb-4">Review Your Listing</h3>
+                    <div id="review-content" class="space-y-4 text-gray-700">
+                        <p><strong>Name:</strong> <span id="review-name"></span></p>
+                        <p><strong>Category:</strong> <span id="review-category"></span></p>
+                        <p><strong>Description:</strong> <span id="review-description"></span></p>
+                        <p><strong>Daily Price:</strong> <span id="review-price"></span></p>
+                        <p><strong>Appraisal Status:</strong> <span id="review-appraisal"></span></p>
+                    </div>
+                    <div class="flex justify-between mt-8">
+                        <button id="prev-step-4" class="bg-gray-200 text-gray-700 font-semibold py-3 px-8 rounded-full hover:bg-gray-300 transition">Back</button>
+                        <button class="primary-bg text-white font-semibold py-3 px-8 rounded-full shadow-lg primary-hover transition">Publish Listing</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <!-- Page 5: Dashboard -->
+        <div id="dashboardpage" class="page">
+            <h1 class="text-4xl md:text-5xl font-poppins font-bold text-center mb-10">My Dashboard</h1>
+
+            <!-- My Rentals Section -->
+            <section class="mb-12">
+                <h2 class="text-2xl md:text-3xl font-poppins font-bold mb-6">My Rentals</h2>
+                <div class="bg-white rounded-2xl shadow-xl p-6 md:p-8">
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                        <!-- Rental Card 1 -->
+                        <div class="flex items-center space-x-4 p-4 border border-gray-200 rounded-xl">
+                            <img src="https://placehold.co/100x100/4ECDC4/ffffff?text=Moog+Synthesizer" alt="Moog Grandmother Synthesizer" class="w-20 h-20 rounded-lg object-cover">
+                            <div class="flex-1">
+                                <h3 class="font-poppins font-semibold">Moog Grandmother Synthesizer</h3>
+                                <p class="text-gray-500 text-sm">Rented from Aug 15 - Aug 20, 2024</p>
+                                <p class="text-primary font-bold mt-1">Status: Active Rental</p>
+                            </div>
+                            <button class="text-gray-500 hover:text-gray-800 transition"><i class="fas fa-ellipsis-h"></i></button>
+                        </div>
+                        <!-- Rental Card 2 -->
+                        <div class="flex items-center space-x-4 p-4 border border-gray-200 rounded-xl">
+                            <img src="https://placehold.co/100x100/FF6B6B/ffffff?text=Vintage+Guitar" alt="Gibson Les Paul Standard" class="w-20 h-20 rounded-lg object-cover">
+                            <div class="flex-1">
+                                <h3 class="font-poppins font-semibold">Gibson Les Paul Standard</h3>
+                                <p class="text-gray-500 text-sm">Rented from Aug 1 - Aug 5, 2024</p>
+                                <p class="text-green-600 font-bold mt-1">Status: Completed</p>
+                            </div>
+                            <button class="text-gray-500 hover:text-gray-800 transition"><i class="fas fa-ellipsis-h"></i></button>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- My Listings Section -->
+            <section>
+                <h2 class="text-2xl md:text-3xl font-poppins font-bold mb-6">My Listings</h2>
+                <div class="bg-white rounded-2xl shadow-xl p-6 md:p-8">
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                        <!-- Listing Card 1 -->
+                        <div class="flex items-center space-x-4 p-4 border border-gray-200 rounded-xl">
+                            <img src="https://placehold.co/100x100/4ECDC4/ffffff?text=Taylor+Guitar" alt="Taylor 814ce Grand Auditorium" class="w-20 h-20 rounded-lg object-cover">
+                            <div class="flex-1">
+                                <h3 class="font-poppins font-semibold">Taylor 814ce Grand Auditorium</h3>
+                                <p class="text-gray-500 text-sm">Active listing</p>
+                                <p class="text-primary font-bold mt-1">Status: Awaiting Rental</p>
+                            </div>
+                            <button class="text-gray-500 hover:text-gray-800 transition"><i class="fas fa-ellipsis-h"></i></button>
+                        </div>
+                        <!-- Listing Card 2 -->
+                        <div class="flex items-center space-x-4 p-4 border border-gray-200 rounded-xl">
+                            <img src="https://placehold.co/100x100/333333/ffffff?text=Drum+Kit" alt="Ludwig Classic Maple Kit" class="w-20 h-20 rounded-lg object-cover">
+                            <div class="flex-1">
+                                <h3 class="font-poppins font-semibold">Ludwig Classic Maple Kit</h3>
+                                <p class="text-gray-500 text-sm">Active listing</p>
+                                <p class="text-green-600 font-bold mt-1">Status: Currently Rented</p>
+                            </div>
+                            <button class="text-gray-500 hover:text-gray-800 transition"><i class="fas fa-ellipsis-h"></i></button>
+                        </div>
+                    </div>
+                </div>
+            </section>
+        </div>
+
+    </main>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            const pages = document.querySelectorAll('.page');
+            const navLinks = document.querySelectorAll('#home-nav, #browse-nav, #list-nav, #dashboard-nav, #explore-btn, #list-instrument-btn, #back-to-browse, .card-link');
+            const mobileMenuBtn = document.getElementById('mobile-menu-btn');
+            const mobileMenu = document.getElementById('mobile-menu');
+            const closeMobileMenuBtn = document.getElementById('close-mobile-menu');
+
+            // Listing Page Elements
+            const listingSteps = document.querySelectorAll('.listing-step');
+            const stepLabels = document.querySelectorAll('[id^="step-"]');
+            const nextButtons = document.querySelectorAll('[id^="next-step-"]');
+            const prevButtons = document.querySelectorAll('[id^="prev-step-"]');
+            const appraisalRadios = document.querySelectorAll('input[name="appraisal-status"]');
+            const uploadAppraisalDiv = document.getElementById('upload-appraisal');
+            let currentStep = 0;
+
+            // --- Page Navigation Functions ---
+            function showPage(pageId) {
+                pages.forEach(page => {
+                    page.classList.remove('active');
+                });
+                document.getElementById(pageId).classList.add('active');
+                if (mobileMenu.classList.contains('active')) {
+                    mobileMenu.classList.remove('active');
+                    mobileMenu.classList.add('hidden');
+                }
+            }
+
+            // --- Listing Page Logic ---
+            function updateListingSteps() {
+                listingSteps.forEach((step, index) => {
+                    if (index === currentStep) {
+                        step.classList.remove('hidden');
+                    } else {
+                        step.classList.add('hidden');
+                    }
+                });
+
+                stepLabels.forEach((label, index) => {
+                    if (index === currentStep) {
+                        label.classList.add('text-primary');
+                        label.classList.remove('text-gray-400');
+                    } else if (index < currentStep) {
+                        label.classList.add('text-primary');
+                        label.classList.remove('text-gray-400');
+                    } else {
+                        label.classList.remove('text-primary');
+                        label.classList.add('text-gray-400');
+                    }
+                });
+            }
+
+            nextButtons.forEach((button, index) => {
+                button.addEventListener('click', () => {
+                    // Collect data for review step
+                    if (currentStep === 2) {
+                        document.getElementById('review-name').textContent = document.getElementById('instrument-name').value;
+                        document.getElementById('review-category').textContent = document.getElementById('category').value;
+                        document.getElementById('review-description').textContent = document.getElementById('description').value;
+                        document.getElementById('review-price').textContent = `$${document.getElementById('daily-price').value}/day`;
+                        const appraisalStatus = document.querySelector('input[name="appraisal-status"]:checked').value;
+                        document.getElementById('review-appraisal').textContent = appraisalStatus === 'have-appraisal' ? 'I have an appraisal' : 'I need an appraisal';
+                    }
+                    if (currentStep < listingSteps.length - 1) {
+                        currentStep++;
+                        updateListingSteps();
+                    }
+                });
+            });
+
+            prevButtons.forEach((button, index) => {
+                button.addEventListener('click', () => {
+                    if (currentStep > 0) {
+                        currentStep--;
+                        updateListingSteps();
+                    }
+                });
+            });
+
+            appraisalRadios.forEach(radio => {
+                radio.addEventListener('change', (e) => {
+                    if (e.target.value === 'have-appraisal') {
+                        uploadAppraisalDiv.classList.remove('hidden');
+                    } else {
+                        uploadAppraisalDiv.classList.add('hidden');
+                    }
+                });
+            });
+
+
+            // --- Main Event Listeners ---
+            navLinks.forEach(link => {
+                link.addEventListener('click', (e) => {
+                    e.preventDefault();
+                    let pageId;
+                    if (link.id === 'home-nav') {
+                        pageId = 'homepage';
+                    } else if (link.id === 'browse-nav' || link.id === 'explore-btn' || link.id === 'back-to-browse') {
+                        pageId = 'browsepage';
+                    } else if (link.id === 'list-nav' || link.id === 'list-instrument-btn') {
+                        pageId = 'listingpage';
+                        currentStep = 0; // Reset to the first step
+                        updateListingSteps();
+                    } else if (link.id === 'dashboard-nav') {
+                        pageId = 'dashboardpage';
+                    } else if (link.classList.contains('card-link')) {
+                        pageId = link.dataset.page;
+                    }
+                    showPage(pageId);
+                });
+            });
+
+            mobileMenuBtn.addEventListener('click', () => {
+                mobileMenu.classList.remove('hidden');
+                mobileMenu.classList.add('active');
+            });
+
+            closeMobileMenuBtn.addEventListener('click', () => {
+                mobileMenu.classList.remove('active');
+                mobileMenu.classList.add('hidden');
+            });
+            
+            // Initial page load
+            showPage('homepage');
+        });
+    </script>
+</body>
+</html>
+
