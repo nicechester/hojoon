@@ -1,0 +1,213 @@
+@startuml
+title Musical Instrument Rental Platform - UI Flow Diagram
+
+skinparam backgroundColor #F8F9FA
+skinparam activityBackgroundColor #E3F2FD
+skinparam activityBorderColor #1976D2
+skinparam activityDiamondBackgroundColor #FFF3E0
+skinparam activityDiamondBorderColor #FF9800
+skinparam activityStartColor #4CAF50
+skinparam activityEndColor #F44336
+skinparam noteBackgroundColor #FFEB3B
+skinparam noteBorderColor #FBC02D
+
+|#LightBlue|Guest/New User|
+start
+:Visit Homepage;
+note right: Featured instruments,\nSearch bar, Trust indicators
+
+:Browse/Search Instruments;
+note right: Filter by type, location,\nprice, appraisal status
+
+if (Found interesting instrument?) then (yes)
+  :View Instrument Detail Page;
+  note right: Photos, description,\nappraisal status, calendar
+  
+  if (Want to rent?) then (yes)
+    if (Registered user?) then (no)
+      |#LightGreen|Registration Flow|
+      :Create Account;
+      :Verify Email;
+      :Complete Profile;
+      note right: Identity verification\nfor trust & security
+    else (yes)
+    endif
+    
+    |#LightCoral|Renter Flow|
+    :Login to Account;
+    :Select Rental Dates;
+    note right: Interactive calendar\nshows availability
+    
+    :Review Booking Details;
+    note right: Total cost calculation,\nrental terms, policies
+    
+    :Checkout/Payment Page;
+    note right: Payment method selection,\nescrow explanation
+    
+    :Complete Payment;
+    note right: Funds held in escrow\nuntil rental completion
+    
+    :Booking Confirmation;
+    note right: Email confirmation,\nrental agreement
+    
+    :User Dashboard - My Rentals;
+    note right: Track rental status,\ncommunicate with owner
+    
+    if (Rental completed?) then (yes)
+      :Leave Review & Rating;
+      :Funds Released to Owner;
+      note right: Automatic escrow release\n24hrs after return
+    else (no)
+      :Manage Active Rental;
+      note right: Contact owner,\nreport issues, extend rental
+    endif
+    
+  else (no)
+    :Continue Browsing;
+  endif
+else (no)
+  :Refine Search Criteria;
+endif
+
+|#LightYellow|Owner/Lister Flow|
+:User Dashboard;
+note right: Central hub for all\nowner activities
+
+if (Want to list instrument?) then (yes)
+  :Start Listing Process;
+  note right: Multi-step wizard\nfor comprehensive listing
+  
+  :Step 1 - Basic Information;
+  note right: Name, category, brand,\ndescription, condition
+  
+  :Step 2 - Photos & Media;
+  note right: Multiple high-quality photos,\nvideo demonstrations
+  
+  :Step 3 - Pricing & Availability;
+  note right: Daily rate, security deposit,\navailability calendar
+  
+  :Step 4 - Appraisal Options;
+  if (Want professional appraisal?) then (yes)
+    |#LightPink|Appraisal Flow|
+    :Request Professional Appraisal;
+    note right: Submit instrument details\nand photos for review
+    
+    :Appraisal Fee Payment;
+    note right: Secure payment to\ncertified appraiser
+    
+    :Schedule Appraisal;
+    note right: Choose remote or\nin-person evaluation
+    
+    :Appraisal Conducted;
+    note right: Professional evaluation\nwith digital certification
+    
+    :Receive Appraisal Report;
+    note right: Official document with\nvaluation and condition
+    
+    :Appraisal Badge Added;
+    note right: Verified status increases\ntrust and rental rates
+  else (no)
+    :Self-Report Condition;
+    note right: Owner provides condition\nassessment without certification
+  endif
+  
+  :Step 5 - Review & Publish;
+  note right: Final review of all\nlisting information
+  
+  :Listing Published;
+  note right: Instrument appears\nin search results
+  
+  :Monitor Listing Performance;
+  note right: Views, inquiries,\nbooking requests
+  
+else (no)
+  :Manage Existing Listings;
+  note right: Edit details, update\navailability, adjust pricing
+endif
+
+if (Received rental request?) then (yes)
+  :Review Renter Profile;
+  note right: Check ratings, reviews,\nverification status
+  
+  if (Accept request?) then (yes)
+    :Accept Booking Request;
+    note right: Confirm rental terms\nand conditions
+    
+    :Coordinate Pickup/Delivery;
+    note right: Communication with renter\nfor logistics
+    
+    :Rental Period Active;
+    note right: Track rental status,\nmaintain communication
+    
+    :Instrument Returned;
+    note right: Inspect condition,\nconfirm return
+    
+    :Payment Released;
+    note right: Escrow funds transferred\nto owner account
+    
+    :Leave Review for Renter;
+    note right: Rate renter experience\nfor community trust
+    
+    :Update Disbursements;
+    note right: Track earnings,\nmanage payouts
+    
+  else (no)
+    :Decline Request;
+    note right: Provide reason,\nsuggest alternatives
+  endif
+else (no)
+  :Wait for Requests;
+endif
+
+|#Lavender|Certified Appraiser Flow|
+:Appraiser Dashboard;
+note right: Specialized portal for\nprofessional appraisers
+
+:Review Appraisal Queue;
+note right: List of pending\nappraisal requests
+
+:Select Appraisal Request;
+note right: Review submitted photos\nand instrument details
+
+:Contact Owner;
+note right: Clarify details,\nschedule evaluation
+
+if (Remote or In-person?) then (Remote)
+  :Conduct Video Appraisal;
+  note right: Live video inspection\nwith detailed documentation
+else (In-person)
+  :Schedule Site Visit;
+  note right: Physical inspection\nat owner's location
+endif
+
+:Complete Appraisal Report;
+note right: Professional evaluation\nwith valuation and certification
+
+:Submit Digital Certification;
+note right: Official stamp/signature\nfor verified status
+
+:Receive Appraisal Fee;
+note right: Payment from platform\nfor professional service
+
+|#LightSteelBlue|Platform Admin Flow|
+:Admin Dashboard;
+note right: Comprehensive platform\nmanagement interface
+
+:Monitor Platform Metrics;
+note right: User activity, transactions,\nperformance indicators
+
+:Review Dispute Reports;
+note right: Handle conflicts between\nusers with fair resolution
+
+:Manage User Verification;
+note right: Approve/reject identity\nverification requests
+
+:Oversee Appraiser Network;
+note right: Certify new appraisers,\nmonitor quality standards
+
+:Configure Platform Settings;
+note right: Fees, policies, features,\nsystem configurations
+
+stop
+
+@enduml

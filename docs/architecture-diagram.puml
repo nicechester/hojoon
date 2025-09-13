@@ -1,0 +1,179 @@
+@startuml
+!include <C4/C4_Component>
+
+title Musical Instrument Rental Platform - Microservices Architecture
+
+skinparam backgroundColor #F8F9FA
+skinparam componentStyle rectangle
+
+' Define colors for different layers
+skinparam rectangle {
+    BackgroundColor<<frontend>> #E8F5E8
+    BorderColor<<frontend>> #4CAF50
+    BackgroundColor<<gateway>> #FFF3E0
+    BorderColor<<gateway>> #FF9800
+    BackgroundColor<<service>> #E3F2FD
+    BorderColor<<service>> #2196F3
+    BackgroundColor<<database>> #F3E5F5
+    BorderColor<<database>> #9C27B0
+    BackgroundColor<<external>> #FFEBEE
+    BorderColor<<external>> #F44336
+    BackgroundColor<<infrastructure>> #F5F5F5
+    BorderColor<<infrastructure>> #607D8B
+}
+
+' Frontend Layer
+package "Frontend Layer" {
+    rectangle "Next.js Web App\n(React + TypeScript)" as WebApp <<frontend>>
+    rectangle "React Native\niOS App" as iOSApp <<frontend>>
+    rectangle "React Native\nAndroid App" as AndroidApp <<frontend>>
+}
+
+' API Gateway Layer
+package "API Gateway Layer" {
+    rectangle "Kong API Gateway\n- Request Routing\n- Authentication\n- Rate Limiting\n- Load Balancing" as APIGateway <<gateway>>
+}
+
+' Microservices Layer
+package "Microservices Layer" {
+    rectangle "User Service\n- Authentication\n- User Profiles\n- Role Management\n- Verification" as UserService <<service>>
+    
+    rectangle "Inventory Service\n- Instrument Listings\n- Categories\n- Search Indexing\n- Availability" as InventoryService <<service>>
+    
+    rectangle "Booking Service\n- Rental Requests\n- Scheduling\n- Availability Check\n- Booking Management" as BookingService <<service>>
+    
+    rectangle "Appraisal Service\n- Professional Evaluations\n- Certification Workflow\n- Document Management\n- Quality Control" as AppraisalService <<service>>
+    
+    rectangle "Payment Service\n- Escrow Management\n- Disbursement Control\n- Fee Processing\n- Transaction History" as PaymentService <<service>>
+    
+    rectangle "Communication Service\n- Real-time Messaging\n- Video Calls\n- Chat History\n- Notification Routing" as CommunicationService <<service>>
+    
+    rectangle "Review Service\n- Ratings & Reviews\n- Reputation Management\n- Feedback Analysis\n- Trust Scoring" as ReviewService <<service>>
+    
+    rectangle "Notification Service\n- Email Notifications\n- SMS Alerts\n- Push Notifications\n- Event Triggers" as NotificationService <<service>>
+}
+
+' Data Layer
+package "Data Layer" {
+    database "PostgreSQL\n- Users\n- Bookings\n- Transactions\n- Reviews" as PostgresDB <<database>>
+    
+    database "Redis\n- Sessions\n- Caching\n- Real-time Data\n- Rate Limiting" as RedisDB <<database>>
+    
+    database "Elasticsearch\n- Instrument Search\n- Location Queries\n- Advanced Filtering\n- Analytics" as ElasticsearchDB <<database>>
+    
+    database "MongoDB\n- Appraisal Documents\n- File Metadata\n- Unstructured Data\n- Logs" as MongoDB <<database>>
+}
+
+' External Services
+package "External Services" {
+    rectangle "Stripe Connect\n- Payment Processing\n- Multi-party Payments\n- Escrow Services" as StripeAPI <<external>>
+    
+    rectangle "AWS S3\n- File Storage\n- Image Storage\n- Document Storage" as S3Storage <<external>>
+    
+    rectangle "SendGrid\n- Email Delivery\n- Templates\n- Analytics" as SendGridAPI <<external>>
+    
+    rectangle "Twilio\n- SMS Services\n- Voice Calls\n- Video API" as TwilioAPI <<external>>
+    
+    rectangle "Google Maps\n- Geolocation\n- Address Validation\n- Distance Calculation" as GoogleMapsAPI <<external>>
+}
+
+' Infrastructure Layer
+package "Infrastructure Layer" {
+    rectangle "Docker Containers\n- Service Isolation\n- Deployment Units\n- Portability" as Docker <<infrastructure>>
+    
+    rectangle "Kubernetes\n- Orchestration\n- Scaling\n- Service Discovery\n- Health Monitoring" as Kubernetes <<infrastructure>>
+    
+    rectangle "AWS/GCP Cloud\n- Compute Resources\n- Managed Services\n- Global Infrastructure" as CloudPlatform <<infrastructure>>
+    
+    rectangle "CDN (CloudFlare)\n- Content Delivery\n- Image Optimization\n- Global Caching" as CDN <<infrastructure>>
+    
+    rectangle "Message Broker\n(RabbitMQ/Kafka)\n- Async Communication\n- Event Streaming\n- Service Decoupling" as MessageBroker <<infrastructure>>
+}
+
+' Frontend to Gateway Connections
+WebApp --> APIGateway : HTTPS/REST API
+iOSApp --> APIGateway : HTTPS/REST API
+AndroidApp --> APIGateway : HTTPS/REST API
+
+' Gateway to Services Connections
+APIGateway --> UserService : Route /users/*
+APIGateway --> InventoryService : Route /instruments/*
+APIGateway --> BookingService : Route /bookings/*
+APIGateway --> AppraisalService : Route /appraisals/*
+APIGateway --> PaymentService : Route /payments/*
+APIGateway --> CommunicationService : Route /chat/*
+APIGateway --> ReviewService : Route /reviews/*
+APIGateway --> NotificationService : Route /notifications/*
+
+' Service to Database Connections
+UserService --> PostgresDB : User data\nAuthentication
+UserService --> RedisDB : Sessions\nCache
+
+InventoryService --> PostgresDB : Instrument data
+InventoryService --> ElasticsearchDB : Search indexing
+InventoryService --> RedisDB : Cache
+
+BookingService --> PostgresDB : Booking data
+BookingService --> RedisDB : Availability cache
+
+AppraisalService --> PostgresDB : Appraisal records
+AppraisalService --> MongoDB : Documents\nReports
+
+PaymentService --> PostgresDB : Transaction data
+PaymentService --> RedisDB : Payment cache
+
+CommunicationService --> PostgresDB : Message history
+CommunicationService --> RedisDB : Real-time data
+
+ReviewService --> PostgresDB : Reviews\nRatings
+
+NotificationService --> PostgresDB : Notification logs
+NotificationService --> RedisDB : Delivery queue
+
+' Service to External API Connections
+PaymentService --> StripeAPI : Payment processing\nEscrow management
+InventoryService --> S3Storage : Image storage
+AppraisalService --> S3Storage : Document storage
+NotificationService --> SendGridAPI : Email delivery
+NotificationService --> TwilioAPI : SMS delivery
+CommunicationService --> TwilioAPI : Video calls
+InventoryService --> GoogleMapsAPI : Location services
+
+' Inter-service Communication through Message Broker
+UserService ..> MessageBroker : User events
+BookingService ..> MessageBroker : Booking events
+PaymentService ..> MessageBroker : Payment events
+NotificationService <.. MessageBroker : Event consumption
+ReviewService <.. MessageBroker : Event consumption
+AppraisalService <.. MessageBroker : Event consumption
+
+' Infrastructure Dependencies
+Docker --> Kubernetes : Container orchestration
+Kubernetes --> CloudPlatform : Managed K8s service
+CDN --> S3Storage : Origin server
+
+' Notes for key architectural decisions
+note right of APIGateway : Single entry point for all\nclient requests with\nauthentication, routing,\nand rate limiting
+
+note bottom of PaymentService : Implements complex escrow logic:\n1. Renter payment held\n2. Released on rental completion\n3. Platform commission deducted\n4. Owner receives payout
+
+note left of AppraisalService : Specialized workflow for\ncertified professionals:\n- Remote/in-person appraisals\n- Digital certification\n- Integration with booking flow
+
+note top of MessageBroker : Enables async communication\nbetween services for:\n- Event-driven architecture\n- Loose coupling\n- Scalability
+
+' Legend
+legend right
+    |Color| Layer |
+    |<color:#E8F5E8>| Frontend Applications |
+    |<color:#FFF3E0>| API Gateway |
+    |<color:#E3F2FD>| Microservices |
+    |<color:#F3E5F5>| Databases |
+    |<color:#FFEBEE>| External Services |
+    |<color:#F5F5F5>| Infrastructure |
+    
+    |Line Type| Communication |
+    |<color:black>━━━| Synchronous API calls |
+    |<color:blue>┅┅┅| Asynchronous messaging |
+endlegend
+
+@enduml

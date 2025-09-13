@@ -1,0 +1,268 @@
+@startuml
+title Musical Instrument Rental Platform - Deployment Diagram
+
+skinparam backgroundColor #F8F9FA
+skinparam nodeBackgroundColor #E3F2FD
+skinparam nodeBorderColor #1976D2
+skinparam componentBackgroundColor #FFFFFF
+skinparam componentBorderColor #666666
+skinparam databaseBackgroundColor #F3E5F5
+skinparam databaseBorderColor #9C27B0
+skinparam cloudBackgroundColor #E8F5E8
+skinparam cloudBorderColor #4CAF50
+
+' Client Devices
+node "Client Devices" {
+    component [Web Browser\n(Chrome, Firefox, Safari)] as WebBrowser
+    component [iOS App\n(React Native)] as iOSApp
+    component [Android App\n(React Native)] as AndroidApp
+}
+
+' CDN Layer
+cloud "CloudFlare CDN" {
+    component [Global Edge Servers] as CDN
+    component [Image Optimization] as ImageOpt
+    component [Static Content Cache] as StaticCache
+}
+
+' Load Balancer
+node "AWS Application Load Balancer" {
+    component [ALB] as LoadBalancer
+    note right of LoadBalancer : SSL Termination\nHealth Checks\nTraffic Distribution
+}
+
+' Kubernetes Cluster
+cloud "AWS EKS Kubernetes Cluster" {
+    
+    ' API Gateway
+    node "API Gateway Pods" {
+        component [Kong API Gateway\nPod 1] as Kong1
+        component [Kong API Gateway\nPod 2] as Kong2
+        component [Kong API Gateway\nPod 3] as Kong3
+        note bottom of Kong1 : Horizontal Pod Autoscaler\nMin: 2, Max: 10
+    }
+    
+    ' Microservices Pods
+    node "User Service Pods" {
+        component [User Service\nPod 1] as UserPod1
+        component [User Service\nPod 2] as UserPod2
+    }
+    
+    node "Inventory Service Pods" {
+        component [Inventory Service\nPod 1] as InventoryPod1
+        component [Inventory Service\nPod 2] as InventoryPod2
+    }
+    
+    node "Booking Service Pods" {
+        component [Booking Service\nPod 1] as BookingPod1
+        component [Booking Service\nPod 2] as BookingPod2
+    }
+    
+    node "Appraisal Service Pods" {
+        component [Appraisal Service\nPod 1] as AppraisalPod1
+        component [Appraisal Service\nPod 2] as AppraisalPod2
+    }
+    
+    node "Payment Service Pods" {
+        component [Payment Service\nPod 1] as PaymentPod1
+        component [Payment Service\nPod 2] as PaymentPod2
+    }
+    
+    node "Communication Service Pods" {
+        component [Communication Service\nPod 1] as CommunicationPod1
+        component [Communication Service\nPod 2] as CommunicationPod2
+    }
+    
+    node "Review Service Pods" {
+        component [Review Service\nPod 1] as ReviewPod1
+        component [Review Service\nPod 2] as ReviewPod2
+    }
+    
+    node "Notification Service Pods" {
+        component [Notification Service\nPod 1] as NotificationPod1
+        component [Notification Service\nPod 2] as NotificationPod2
+    }
+    
+    ' Message Broker
+    node "Message Broker Cluster" {
+        component [RabbitMQ\nPod 1] as RabbitMQ1
+        component [RabbitMQ\nPod 2] as RabbitMQ2
+        component [RabbitMQ\nPod 3] as RabbitMQ3
+        note bottom of RabbitMQ2 : Clustered setup with\nHA and persistence
+    }
+}
+
+' Database Layer
+cloud "AWS RDS & ElastiCache" {
+    database "PostgreSQL\nPrimary" as PostgresPrimary {
+        component [Users DB] as UsersDB
+        component [Bookings DB] as BookingsDB
+        component [Transactions DB] as TransactionsDB
+        component [Reviews DB] as ReviewsDB
+    }
+    
+    database "PostgreSQL\nRead Replica" as PostgresReplica {
+        component [Read-only Queries] as ReadReplica
+    }
+    
+    database "Redis Cluster" as RedisCluster {
+        component [Session Store] as SessionStore
+        component [Cache Layer] as CacheLayer
+        component [Rate Limiting] as RateLimiting
+    }
+}
+
+' Search and NoSQL
+cloud "AWS OpenSearch & DocumentDB" {
+    database "OpenSearch\n(Elasticsearch)" as OpenSearch {
+        component [Instrument Index] as InstrumentIndex
+        component [Location Index] as LocationIndex
+        component [Analytics Data] as AnalyticsData
+    }
+    
+    database "MongoDB Atlas" as MongoDB {
+        component [Appraisal Documents] as AppraisalDocs
+        component [File Metadata] as FileMetadata
+        component [Application Logs] as AppLogs
+    }
+}
+
+' File Storage
+cloud "AWS S3" {
+    database "S3 Buckets" as S3Storage {
+        component [Instrument Images] as InstrumentImages
+        component [Appraisal Reports] as AppraisalReports
+        component [User Documents] as UserDocuments
+        component [Static Assets] as StaticAssets
+    }
+}
+
+' External Services
+cloud "External APIs" {
+    component [Stripe Connect API] as StripeAPI
+    component [SendGrid Email API] as SendGridAPI
+    component [Twilio SMS/Voice API] as TwilioAPI
+    component [Google Maps API] as GoogleMapsAPI
+    component [Identity Verification API] as IDVerificationAPI
+}
+
+' Monitoring & Logging
+cloud "Monitoring Stack" {
+    node "AWS CloudWatch" {
+        component [Application Metrics] as AppMetrics
+        component [Infrastructure Metrics] as InfraMetrics
+        component [Log Aggregation] as LogAggregation
+    }
+    
+    node "Prometheus & Grafana" {
+        component [Custom Metrics] as CustomMetrics
+        component [Alerting] as Alerting
+        component [Dashboards] as Dashboards
+    }
+}
+
+' CI/CD Pipeline
+node "CI/CD Pipeline" {
+    component [GitHub Actions] as GitHubActions
+    component [Docker Registry\n(ECR)] as DockerRegistry
+    component [Helm Charts] as HelmCharts
+    note bottom of GitHubActions : Automated testing,\nbuilding, and deployment
+}
+
+' Client Connections
+WebBrowser --> CDN : HTTPS
+iOSApp --> CDN : HTTPS
+AndroidApp --> CDN : HTTPS
+
+' CDN to Load Balancer
+CDN --> LoadBalancer : Origin requests
+
+' Load Balancer to API Gateway
+LoadBalancer --> Kong1 : Load balanced\nHTTPS traffic
+LoadBalancer --> Kong2
+LoadBalancer --> Kong3
+
+' API Gateway to Services
+Kong1 --> UserPod1 : HTTP/gRPC
+Kong1 --> InventoryPod1
+Kong1 --> BookingPod1
+Kong1 --> AppraisalPod1
+Kong1 --> PaymentPod1
+Kong1 --> CommunicationPod1
+Kong1 --> ReviewPod1
+Kong1 --> NotificationPod1
+
+' Services to Databases
+UserPod1 --> PostgresPrimary : Connection pool
+UserPod1 --> RedisCluster : Session/Cache
+InventoryPod1 --> PostgresPrimary
+InventoryPod1 --> OpenSearch : Search queries
+InventoryPod1 --> RedisCluster
+BookingPod1 --> PostgresPrimary
+BookingPod1 --> RedisCluster
+AppraisalPod1 --> PostgresPrimary
+AppraisalPod1 --> MongoDB : Document storage
+PaymentPod1 --> PostgresPrimary
+PaymentPod1 --> RedisCluster
+CommunicationPod1 --> PostgresPrimary
+CommunicationPod1 --> RedisCluster : Real-time data
+ReviewPod1 --> PostgresPrimary
+NotificationPod1 --> PostgresPrimary
+NotificationPod1 --> RedisCluster
+
+' Database Replication
+PostgresPrimary --> PostgresReplica : Async replication
+
+' Message Broker Connections
+UserPod1 --> RabbitMQ1 : Event publishing
+BookingPod1 --> RabbitMQ1
+PaymentPod1 --> RabbitMQ1
+NotificationPod1 <-- RabbitMQ1 : Event consumption
+ReviewPod1 <-- RabbitMQ1
+AppraisalPod1 <-- RabbitMQ1
+
+' File Storage Connections
+InventoryPod1 --> S3Storage : Image upload/retrieval
+AppraisalPod1 --> S3Storage : Document storage
+CDN --> S3Storage : Static content origin
+
+' External API Connections
+PaymentPod1 --> StripeAPI : Payment processing
+NotificationPod1 --> SendGridAPI : Email delivery
+NotificationPod1 --> TwilioAPI : SMS delivery
+CommunicationPod1 --> TwilioAPI : Video calls
+InventoryPod1 --> GoogleMapsAPI : Location services
+UserPod1 --> IDVerificationAPI : Identity checks
+
+' Monitoring Connections
+Kong1 --> AppMetrics : Metrics export
+UserPod1 --> AppMetrics
+InventoryPod1 --> CustomMetrics : Prometheus metrics
+LoadBalancer --> InfraMetrics
+RedisCluster --> InfraMetrics
+
+' CI/CD Connections
+GitHubActions --> DockerRegistry : Push images
+GitHubActions --> HelmCharts : Deploy to K8s
+DockerRegistry --> Kong1 : Pull images
+DockerRegistry --> UserPod1
+
+' Deployment Specifications
+note top of Kong1 : Resources:\nCPU: 500m, Memory: 1Gi\nReplicas: 2-10 (HPA)\nHealthcheck: /health
+
+note top of UserPod1 : Resources:\nCPU: 300m, Memory: 512Mi\nReplicas: 2-5 (HPA)\nHealthcheck: /actuator/health
+
+note top of PostgresPrimary : Configuration:\nInstance: db.r5.xlarge\nStorage: 100GB SSD\nBackup: 7 days retention\nMulti-AZ deployment
+
+note top of RedisCluster : Configuration:\nNode type: cache.r6g.large\nReplicas: 2 per shard\nShards: 3\nEncryption at rest/transit
+
+note top of OpenSearch : Configuration:\nInstance: t3.medium.search\nNodes: 3 (1 master, 2 data)\nStorage: 20GB per node
+
+note bottom of S3Storage : Configuration:\nStandard storage class\nVersioning enabled\nLifecycle policies\nCross-region replication
+
+' Security Notes
+note right of LoadBalancer : Security:\n- WAF enabled\n- SSL/TLS termination\n- DDoS protection\n- Rate limiting
+
+note left of Kong1 : Security:\n- JWT validation\n- API key management\n- CORS handling\n- Request/response filtering
+
+@enduml

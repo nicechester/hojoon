@@ -1,0 +1,97 @@
+@startuml
+
+title Musical Instrument Rental Platform - Context Diagram
+
+skinparam backgroundColor #F8F9FA
+skinparam actorBackgroundColor #E8F5E8
+skinparam actorBorderColor #4CAF50
+skinparam componentBackgroundColor #E3F2FD
+skinparam componentBorderColor #1976D2
+skinparam rectangle {
+    BackgroundColor<<external>> #FFF3E0
+    BorderColor<<external>> #F57C00
+}
+
+' Main System
+component "Musical Instrument\nRental Platform" as Platform
+note right of Platform
+    Core system handling
+    P2P instrument rentals
+    with professional appraisal
+    and disbursement control
+end note
+
+' Primary Actors
+actor "Instrument Renter\n(Consumer)" as Renter
+actor "Instrument Owner\n(Lister)" as Owner
+actor "Certified Professional\nAppraiser" as Appraiser
+actor "Platform Administrator" as Admin
+actor "Guest/Visitor" as Guest
+
+' External Systems
+rectangle "Stripe Connect\nPayment Gateway" as Stripe <<external>>
+rectangle "Email Service\nProvider (SendGrid)" as EmailService <<external>>
+rectangle "SMS Gateway\n(Twilio)" as SMSGateway <<external>>
+rectangle "Cloud Storage\n(AWS S3)" as CloudStorage <<external>>
+rectangle "CDN Provider\n(CloudFlare)" as CDN <<external>>
+rectangle "Push Notification\nService" as PushNotifications <<external>>
+rectangle "Video Call Service\n(WebRTC/Agora)" as VideoService <<external>>
+rectangle "Insurance Provider\nAPI" as Insurance <<external>>
+rectangle "Geolocation Service\n(Google Maps)" as GeoService <<external>>
+rectangle "Identity Verification\nService" as IDVerification <<external>>
+
+' Actor to System Relationships
+Renter --> Platform : "Browse instruments\nMake rental requests\nProcess payments\nLeave reviews"
+Owner --> Platform : "List instruments\nManage bookings\nReceive payments\nRequest appraisals"
+Appraiser --> Platform : "Review appraisal requests\nConduct evaluations\nSubmit certifications"
+Admin --> Platform : "Manage users\nResolve disputes\nMonitor platform\nConfigure settings"
+Guest --> Platform : "Browse listings\nView instrument details\nCreate account"
+
+' System to External System Relationships
+Platform --> Stripe : "Process payments\nManage escrow\nHandle disbursements\nTransaction fees"
+note on link
+    Secure payment processing
+    Escrow management
+    Multi-party disbursements
+end note
+Platform --> EmailService : "Send notifications\nAccount verification\nBooking confirmations"
+Platform --> SMSGateway : "SMS notifications\nTwo-factor authentication\nUrgent alerts"
+Platform --> CloudStorage : "Store instrument photos\nAppraisal documents\nUser profile images"
+Platform --> CDN : "Deliver static content\nOptimize image loading\nGlobal content distribution"
+Platform --> PushNotifications : "Mobile app notifications\nReal-time alerts\nBooking updates"
+Platform --> VideoService : "Remote appraisal calls\nUser-to-user communication\nSupport video chat"
+note on link
+    Remote appraisal sessions
+    User support calls
+end note
+Platform --> Insurance : "Validate coverage\nProcess claims\nGet quotes"
+note on link
+    Instrument coverage validation
+    Claim processing workflow
+end note
+Platform --> GeoService : "Location-based search\nDistance calculations\nAddress validation"
+Platform --> IDVerification : "Verify user identity\nBackground checks\nAppraiser certification"
+
+' External System to System (reverse flows)
+Stripe --> Platform : "Payment webhooks\nTransaction status\nDispute notifications"
+Insurance --> Platform : "Coverage confirmations\nClaim status updates\nPolicy renewals"
+IDVerification --> Platform : "Verification results\nCompliance reports\nRisk assessments"
+
+' Data Flow Labels
+
+' Legend
+legend right
+    |Color| Description |
+    |<color:#E3F2FD>| Core System |
+    |<color:#E8F5E8>| User Actors |
+    |<color:#FFF3E0>| External Systems |
+endlegend
+
+' Notes about key interactions
+note top of Platform : Platform facilitates secure P2P transactions\nwith professional quality assurance\nand financial protection for all parties
+
+note bottom of Stripe : Handles complex multi-party payments:\n- Renter pays platform\n- Platform holds in escrow\n- Releases to owner after rental\n- Pays appraiser fees\n- Takes platform commission
+
+note right of Appraiser : Certified professionals provide:\n- Remote/in-person appraisals\n- Digital certification\n- Condition documentation\n- Valuation reports
+
+@enduml
